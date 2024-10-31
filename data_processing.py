@@ -62,6 +62,15 @@ for city in cities:
 print("The min temperature of all the cities in", my_country, ":")
 print(min(temps))
 print()
+def aggregate(aggregation_key, aggregation_function, dict_list):
+    aggregated_list = [float(i[aggregation_key]) for i in dict_list]
+    print(aggregation_function(aggregated_list))
+
+    pass
+aggregate ('temperature',(lambda x:sum(x)/len(x)), filter(lambda x: x['country'] == 'Italy', cities))
+aggregate ('temperature',(lambda x:sum(x)/len(x)), filter(lambda x: x['country'] == 'Sweden', cities))
+aggregate ('temperature',(lambda x:min(x)), filter(lambda x: x['country'] == 'Italy', cities))
+aggregate ('temperature',(lambda x:max(x)), filter(lambda x: x['country'] == 'Sweden', cities))
 
 # Let's write code to
 # - print the average temperature for all the cities in Italy
