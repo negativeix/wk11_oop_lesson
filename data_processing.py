@@ -1,7 +1,7 @@
 import csv, os
 
 __location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 cities = []
 with open(os.path.join(__location__, 'Cities.csv')) as f:
@@ -24,56 +24,34 @@ print(sum(temps)/len(temps))
 print()
 
 # Print all cities in Italy
-cities_temp = []
+temps = []
 my_country = 'Italy'
 for city in cities:
     if city['country'] == my_country:
-        cities_temp.append(city['city'])
+        temps.append(city['city'])
 print("All the cities in", my_country, ":")
-print(cities_temp)
+print(temps)
 print()
 
-# Print the average temperature for all the cities in Italy
-temps = []
-my_country = 'Italy'
-for city in cities:
-    if city['country'] == my_country:
-        temps.append(float(city['temperature']))
-print("The average temperature of all the cities in", my_country, ":")
-print(sum(temps)/len(temps))
-print()
+def filter(condition, dict_list):
+    filtered_list = []
+    for item in dict_list:
+        if condition(item):
+            filtered_list.append(item)
+    return filtered_list
 
-# Print the max temperature for all the cities in Italy
-temps = []
-my_country = 'Italy'
-for city in cities:
-    if city['country'] == my_country:
-        temps.append(float(city['temperature']))
-print("The max temperature of all the cities in", my_country, ":")
-print(max(temps))
-print()
 
-# Print the min temperature for all the cities in Italy
-temps = []
-my_country = 'Italy'
-for city in cities:
-    if city['country'] == my_country:
-        temps.append(float(city['temperature']))
-print("The min temperature of all the cities in", my_country, ":")
-print(min(temps))
-print()
 def aggregate(aggregation_key, aggregation_function, dict_list):
     aggregated_list = [float(i[aggregation_key]) for i in dict_list]
     print(aggregation_function(aggregated_list))
 
-    pass
-aggregate ('temperature',(lambda x:sum(x)/len(x)), filter(lambda x: x['country'] == 'Italy', cities))
-aggregate ('temperature',(lambda x:sum(x)/len(x)), filter(lambda x: x['country'] == 'Sweden', cities))
-aggregate ('temperature',(lambda x:min(x)), filter(lambda x: x['country'] == 'Italy', cities))
-aggregate ('temperature',(lambda x:max(x)), filter(lambda x: x['country'] == 'Sweden', cities))
 
 # Let's write code to
 # - print the average temperature for all the cities in Italy
+aggregate ('temperature',(lambda x:sum(x)/len(x)), filter( lambda x: x['country'] == 'Italy', cities))
 # - print the average temperature for all the cities in Sweden
+aggregate ('temperature',(lambda x:sum(x)/len(x)), filter(lambda x: x['country'] == 'Sweden', cities))
 # - print the min temperature for all the cities in Italy
+aggregate ('temperature',(lambda x:min(x)), filter(lambda x: x['country'] == 'Italy', cities))
 # - print the max temperature for all the cities in Sweden
+aggregate ('temperature',(lambda x:max(x)), filter(lambda x: x['country'] == 'Sweden', cities))
